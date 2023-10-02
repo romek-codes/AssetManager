@@ -24,6 +24,10 @@ let mouseX = 0, mouseY = 0;
 const windowHalfX = window.innerWidth / 2;
 const windowHalfY = window.innerHeight / 2;
 
+function lerp(v0, v1, t) {
+  return v0 * (1 - t) + v1 * t;
+}
+
 function onDocumentMouseMove(event) {
   mouseX = (event.clientX - windowHalfX);
   mouseY = (event.clientY - windowHalfY);
@@ -49,9 +53,9 @@ function onDocumentMouseMove(event) {
 
 onLoop(({delta, elapsed}) => {
   if (retroPc.value) {
-    mouseX += (mouseX - target.x) * 0.02;
-    mouseY += (mouseY - target.y) * 0.02;
-    target.z = 40
+    mouseX = lerp(mouseX, target.x, 0.00001);
+    mouseY = lerp(mouseY, target.y, 0.00001);
+    target.z = 40;
 
     retroPc.value.value.lookAt(target);
 
@@ -75,9 +79,17 @@ const appName = computed(() => page.props.appName)
 <template>
   <Head title="Asset Management"/>
 
+  <TresCanvas alpha="alpha" window-size>
+    <TresPerspectiveCamera :position="[1, 1, 1]" :look-at="[0, -0.2, 0]"/>
+    <Suspense>
+      <GLTFModel ref="retroPc" path="/3d/retro_computer/scene-transformed.gltf" draco/>
+    </Suspense>
+    <TresAmbientLight :intensity="4"/>
+  </TresCanvas>
+
   <div id="landing" class="flex flex-col">
 
-    <div class="navbar">
+    <div class="navbar z-10">
       <div class="flex-1">
         <a class="btn btn-ghost normal-case text-xl">{{ appName }}</a>
       </div>
@@ -135,14 +147,6 @@ const appName = computed(() => page.props.appName)
       Asset Management Done Right
     </h1>
   </div>
-
-  <TresCanvas alpha="alpha" window-size>
-    <TresPerspectiveCamera :position="[1, 1, 1]" :look-at="[0, -0.2, 0]"/>
-    <Suspense>
-      <GLTFModel ref="retroPc" path="/3d/retro_computer/scene-transformed.gltf" draco/>
-    </Suspense>
-    <TresAmbientLight :intensity="4"/>
-  </TresCanvas>
 </template>
 
 <style>
