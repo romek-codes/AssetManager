@@ -1,0 +1,62 @@
+
+  0/39 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0% < 1 sec
+
+  6/39 [▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░]  15% < 1 sec
+
+ 18/39 [▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░]  46% < 1 sec
+
+ 30/39 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░]  76%  1 sec
+
+ 36/39 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░]  92%  1 sec
+
+ 39/39 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%  1 sec
+
+
+[2023-10-06 20:07:49] `/home/romek/Workspace/laravel-inertia-vue`
+
+                                                                            
+          95.5%            85.2%            100 %            100 %          
+                                                                            
+                                                                            
+          Code           Complexity      Architecture        Style          
+
+
+Score scale: ◼ 1-49 ◼ 50-79 ◼ 80-100
+
+[CODE] 95.5 pts within 637 lines
+
+Comments ...................................................... 51.0 %
+Classes ....................................................... 16.6 %
+Functions ...................................................... 5.0 %
+Globally ...................................................... 27.3 %
+
+[COMPLEXITY] 85.2 pts with average of 1.44 cyclomatic complexity
+
+[ARCHITECTURE] 100 pts within 36 files
+
+Classes ....................................................... 86.1 %
+Interfaces ..................................................... 0.0 %
+Globally ...................................................... 13.9 %
+Traits ......................................................... 0.0 %
+
+[MISC] 100 pts on coding style and 0 security issues encountered
+
+• [Code] Useless overriding method: (PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UselessOverridingMethodSniff)
+  app/Http/Middleware/HandleInertiaRequests.php:21: Possible useless method overriding detected
+
+• [Code] Disallow empty: (SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEmptySniff)
+  app/Http/Middleware/RedirectIfAuthenticated.php:20: Use of empty() is disallowed.
+
+• [Code] Disallow short ternary operator: (SlevomatCodingStandard\Sniffs\ControlStructures\DisallowShortTernaryOperatorSniff)
+  app/Providers/RouteServiceProvider.php:26: Use of short ternary operator is disallowed.
+
+• [Code] Unused parameter: (SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff)
+  app/Console/Kernel.php:13: Unused parameter $schedule.
+
+ [WARNING] No more issue can be fixed automatically. 4 issues remaining         
+
+
+  - Star or contribute to PHP Insights:
+    https://github.com/nunomaduro/phpinsights
+  - Sponsor the maintainers:
+    https://github.com/sponsors/nunomaduro
