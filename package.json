@@ -25,6 +25,7 @@
     "dependencies": {
         "@tresjs/cientos": "^3.3.0",
         "@tresjs/core": "^3.2.3",
+        "@tweenjs/tween.js": "^21.0.0",
         "daisyui": "^3.8.1",
         "three": "^0.156.1"
     }

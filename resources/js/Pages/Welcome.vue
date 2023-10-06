@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import {ShallowRef, shallowRef} from 'vue';
+import {onMounted, ShallowRef, shallowRef} from 'vue';
 import {Head, Link} from '@inertiajs/vue3';
 import {TresCanvas, useRenderLoop} from "@tresjs/core";
-import {GLTFModel} from '@tresjs/cientos'
-import {ref} from "vue";
+import {GLTFModel, OrbitControls} from '@tresjs/cientos'
+// import {TWEEN} from '@tweenjs/tween.js';
 import * as THREE from 'three';
+import {watch} from 'vue';
 
-const retroPc: ShallowRef<TresInstance | null> = shallowRef(null)
+const switchModel: ShallowRef<TresInstance | null> = shallowRef(null)
+const computerModel: ShallowRef<TresInstance | null> = shallowRef(null)
+const laptopModel: ShallowRef<TresInstance | null> = shallowRef(null)
+const camera: ShallowRef<TresInstance | null> = shallowRef(null)
 const {onLoop} = useRenderLoop()
+let allModelsLoaded = false;
 
 defineProps<{
   canLogin?: boolean;
@@ -16,51 +21,21 @@ defineProps<{
   phpVersion: string;
 }>();
 
-document.addEventListener('mousemove', onDocumentMouseMove);
-
-
-const target = new THREE.Vector3();
-let mouseX = 0, mouseY = 0;
-const windowHalfX = window.innerWidth / 2;
-const windowHalfY = window.innerHeight / 2;
-
-function lerp(v0, v1, t) {
-  return v0 * (1 - t) + v1 * t;
-}
-
-function onDocumentMouseMove(event) {
-  mouseX = (event.clientX - windowHalfX);
-  mouseY = (event.clientY - windowHalfY);
-  if (mouseX > 80) {
-    target.x = 80
-  } else if (mouseX < 20) {
-    target.x = 20
-  } else {
-    target.x = mouseX; // Update the x position of the target
-  }
-  if (mouseY < -50) {
-    target.y = 50
-  } else if (mouseY > -10) {
-    target.y = 10
-  } else {
-    target.y = -mouseY; // Update the x position of the target
-  }
-  console.log('X');
-  console.log(target.x)
-  console.log('Y');
-  console.log(target.y)
-}
-
 onLoop(({delta, elapsed}) => {
-  if (retroPc.value) {
-    mouseX = lerp(mouseX, target.x, 0.00001);
-    mouseY = lerp(mouseY, target.y, 0.00001);
-    target.z = 40;
+  if (allModelsLoaded) {
+    switchModel.value.value.position.y += 0.01
+    computerModel.value.value.position.y += 0.01
+    laptopModel.value.value.position.y += 0.01
+  }
+});
 
-    retroPc.value.value.lookAt(target);
-
-    // retroPc.value.value.rotation.y += delta * 0.5;
-    // retroPc.value.value.rotation.z = elapsed * 0.2;
+watch([switchModel, laptopModel, computerModel], () => {
+  if (switchModel.value && laptopModel.value && computerModel.value) {
+    allModelsLoaded = true;
+    // switchModel.value.value.position.set(-7, -0, 5);
+    // computerModel.value.value.position.set(-1, 0, 0);
+    // laptopModel.value.value.position.set(4, 0, 5);
+    // console.log('???????');
   }
 });
 
@@ -78,11 +53,24 @@ const appName = computed(() => page.props.appName)
 
 <template>
   <Head title="Asset Management"/>
-
+  <!--  Computer by Poly by Google [CC-BY] via Poly Pizza-->
+  <!--  Laptop by Poly by Google [CC-BY] via Poly Pizza-->
   <TresCanvas alpha="alpha" window-size>
-    <TresPerspectiveCamera :position="[1, 1, 1]" :look-at="[0, -0.2, 0]"/>
+    <TresPerspectiveCamera :position="[15, 15, 15]" ref="camera"/>
     <Suspense>
-      <GLTFModel ref="retroPc" path="/3d/retro_computer/scene-transformed.gltf" draco/>
+      <GLTFModel :position="[-7, -10, 5]" :rotation="[0, 10, 0]" ref="switchModel" path="/3d/switch/switch.glb"
+                 draco/>
+    </Suspense>
+    <Suspense>
+      <GLTFModel :position="[-1, -10, 0]" :scale="[0.01, 0.01, 0.01]" ref="computerModel"
+                 path="/3d/computer/Computer.glb"
+                 draco/>
+    </Suspense>
+    <OrbitControls></OrbitControls>
+    <Suspense>
+      <GLTFModel :position="[4, -10, 5]" :rotation="[0, -4, 0]" :scale="[0.003, 0.003, 0.003]" ref="laptopModel"
+                 path="/3d/laptop/Laptop.glb"
+                 draco/>
     </Suspense>
     <TresAmbientLight :intensity="4"/>
   </TresCanvas>
