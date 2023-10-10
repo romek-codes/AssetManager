@@ -4,34 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asset extends Model
 {
     use HasFactory, SoftDeletes;
 
-    /**
-     * @return HasOne<Image>
-     */
-    public function image(): HasOne
+    public function image(): BelongsTo
     {
-        return $this->hasOne(Image::class);
+        return $this->belongsTo(Image::class);
     }
 
-    /**
-     * @return HasOne<Category>
-     */
-    public function category(): HasOne
+    public function category(): BelongsTo
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    /**
-     * @return HasOne<AssignedUser>
-     */
-    public function assignedUser(): HasOne
+    public function assignedUser(): BelongsTo
     {
-        return $this->hasOne(AssignedUser::class);
+        return $this->belongsTo(AssignedUser::class);
     }
 }

@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\AssetData;
 use App\Http\Requests\AssetRequest;
 use App\Http\Resources\AssetResource;
 use App\Models\Asset;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AssetController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(): Response
     {
-        return AssetResource::collection(Asset::all());
+        //        $assets = ['assets' => Asset::with('image', 'category', 'assignedUser')->all()];
+
+        return Inertia::render('Dashboard', ['assets' => AssetData::from(Asset::with('image', 'category', 'assignedUser')->get())]);
     }
 
     public function store(AssetRequest $request): AssetResource
