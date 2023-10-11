@@ -16,6 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Category::truncate();
+        AssignedUser::truncate();
+        Image::truncate();
+        Asset::truncate();
+
         Category::factory()->count(10)->create();
         AssignedUser::factory()->count(10)->create();
         Image::factory()->count(10)->create();

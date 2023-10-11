@@ -13,8 +13,8 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(), //
-            'url' => $this->faker->url(),
+            'name' => $this->faker->word(), //
+            'url' => $this->faker->imageUrl(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

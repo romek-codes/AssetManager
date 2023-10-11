@@ -16,10 +16,10 @@ class AssetFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->word(),
             'category_id' => Category::inRandomOrder()->first()->id,
-            'assigned_user_id' => AssignedUser::inRandomOrder()->first()->id,
-            'image_id' => Image::inRandomOrder()->first()->id,
+            'assigned_user_id' => rand(0, 1) ? AssignedUser::inRandomOrder()->first()->id : null,
+            'image_id' => rand(0, 1) ? Image::inRandomOrder()->first()->id : null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
