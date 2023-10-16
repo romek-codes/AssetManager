@@ -3,7 +3,9 @@
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,6 +28,10 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'appName' => config('app.name', 'Asset Management'),
     ]);
+});
+
+Route::get('/search', function (Request $request) {
+    return Category::search($request->query('query'))->get();
 });
 
 Route::get('/assets', [AssetController::class, 'index'])->middleware(['auth', 'verified'])->name('assets');
