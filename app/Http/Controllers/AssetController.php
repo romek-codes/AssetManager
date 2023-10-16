@@ -18,8 +18,6 @@ class AssetController extends Controller
 {
     public function index(): Response
     {
-        //        $assets = ['assets' => Asset::with('image', 'category', 'assignedUser')->all()];
-        //        $assets = AssetData::from(Asset::with('image', 'category', 'assignedUser')->get());
         $assets = Asset::with('image', 'category', 'assignedUser')->get()->map(function ($asset) {
             return AssetData::fromModel($asset);
         });
@@ -33,7 +31,7 @@ class AssetController extends Controller
         });
 
         return Inertia::render(
-            'Dashboard',
+            'Assets',
             [
                 'assets' => $assets,
                 'categories' => $categories,

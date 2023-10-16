@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\CategoryData;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CategoryController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(): Response
     {
-        return CategoryResource::collection(Category::all());
+        $categories = Category::get()->map(function ($category) {
+            return CategoryData::fromModel($category);
+        });
+
+        return Inertia::render(
+            'Categories',
+            [
+                'categories' => $categories,
+            ]
+        );
     }
 
     public function store(CategoryRequest $request): CategoryResource

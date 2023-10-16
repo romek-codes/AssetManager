@@ -8,6 +8,7 @@ use Spatie\LaravelData\Data;
 class CategoryData extends Data
 {
     public function __construct(
+        public int $id,
         public string $name
     ) {
     }
@@ -15,6 +16,7 @@ class CategoryData extends Data
     public static function fromModel(Category $category): self
     {
         return new self(
+            $category->id,
             $category->name
         );
     }

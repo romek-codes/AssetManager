@@ -22,11 +22,11 @@ const assets = ref(props.assets);
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Assets" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Assets</h2>
         </template>
 
 <!--      <tbody>-->
@@ -41,38 +41,42 @@ const assets = ref(props.assets);
 <!--      </tbody>-->
 
       <div class="overflow-x-auto">
+          <div class="flex justify-start py-4">
+            <div class="px-4">
+              <div class="form-control w-96">
+                <input type="text" placeholder="Search" class="input input-bordered" />
+              </div>
+            </div>
+            <div></div>
+            <div class="px-4">
+              <select class="select select-primary w-full max-w-xs">
+                <option disabled selected>Filter by Name</option>
+                <option v-for="asset in assets"> {{ asset.name }} </option>
+              </select>
+            </div>
+            <div class="px-4">
+              <select class="select select-primary w-full max-w-xs">
+                <option disabled selected>Filter by Category</option>
+                <option v-for="category in categories"> {{ category.name }} </option>
+              </select>
+            </div>
+            <div class="px-4">
+              <select class="select select-primary w-full max-w-xs">
+                <option disabled selected>Filter by Assigned User</option>
+                <option v-for="assignableUser in assignableUsers"> {{ assignableUser.firstName + " " + assignableUser.lastName }} </option>
+              </select>
+            </div>
+          </div>
         <table class="table mx-12 mt-2">
           <!-- head -->
           <thead>
           <tr>
             <th></th>
-            <th></th>
-            <th>
-              <select class="select select-primary w-full max-w-xs">
-                <option disabled selected>Filter by Name</option>
-                <option v-for="asset in assets"> {{ asset.name }} </option>
-              </select>
-            </th>
-            <th>
-              <select class="select select-primary w-full max-w-xs">
-                <option disabled selected>Filter by Category</option>
-                <option v-for="category in categories"> {{ category.name }} </option>
-              </select>
-            </th>
-            <th>
-              <select class="select select-primary w-full max-w-xs">
-                <option disabled selected>Filter by Assigned User</option>
-                <option v-for="assignableUser in assignableUsers"> {{ assignableUser.firstName + " " + assignableUser.lastName }} </option>
-              </select>
-            </th>
-          </tr>
-          <tr>
-            <th>
-            </th>
             <th>ID</th>
             <th>Name</th>
             <th>Category</th>
             <th>Assigned User</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -104,6 +108,11 @@ const assets = ref(props.assets);
             </td>
             <td v-if="asset.assignedUser">{{ asset.assignedUser?.firstName }} {{ asset.assignedUser?.lastName }}</td>
             <td v-else> Not Assigned </td>
+            <td>
+              <button class="btn btn-square btn-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </td>
           </tr>
           </tbody>
           <!-- foot -->
@@ -114,6 +123,7 @@ const assets = ref(props.assets);
             <th>Name</th>
             <th>Category</th>
             <th>Assigned User</th>
+            <th></th>
           </tr>
           </tfoot>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [AssetController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/assets', [AssetController::class, 'index'])->middleware(['auth', 'verified'])->name('assets');
+
+Route::get('/categories', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

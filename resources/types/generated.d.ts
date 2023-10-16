@@ -11,6 +11,7 @@ firstName: string;
 lastName: string;
 };
 export type CategoryData = {
+id: number;
 name: string;
 };
 export type ImageData = {

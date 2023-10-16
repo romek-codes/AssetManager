@@ -25,6 +25,7 @@ export default {
         themes: [
             "light",
             "cupcake",
+            "business",
             {
                 dark: {
                     ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
