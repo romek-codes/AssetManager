@@ -30,13 +30,26 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/search', function (Request $request) {
-    return Category::search($request->query('query'))->get();
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Category Routes
+
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+
+    Route::get('/search-categories', function (Request $request) {
+        return Category::search($request->query('category-name'))->get();
+    })->name('search-categories');
+
+    Route::post('/delete-categories', function (Request $request) {
+        $ids = $request->input('ids');
+
+        Category::whereIn('id', $ids)->delete();
+
+        return response()->json(['message' => 'Categories deleted successfully', 'categories' => '']);
+    })->name('search-categories');
+
+    // Asset Routes
+    Route::get('/assets', [AssetController::class, 'index'])->name('assets');
 });
-
-Route::get('/assets', [AssetController::class, 'index'])->middleware(['auth', 'verified'])->name('assets');
-
-Route::get('/categories', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
