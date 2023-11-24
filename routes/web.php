@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Asset;
 use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -35,20 +36,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
 
-    Route::get('/search-categories', function (Request $request) {
-        return Category::search($request->query('category-name'))->get();
-    })->name('search-categories');
+    Route::get('/search-categories', [CategoryController::class, 'search'])->name('search-categories');
+    Route::post('/delete-categories', [CategoryController::class, 'deleteCategories'])->name('delete-categories');
 
     Route::post('/delete-categories', function (Request $request) {
-        $ids = $request->input('ids');
-
-        Category::whereIn('id', $ids)->delete();
-
-        return response()->json(['message' => 'Categories deleted successfully', 'categories' => '']);
     })->name('search-categories');
 
     // Asset Routes
     Route::get('/assets', [AssetController::class, 'index'])->name('assets');
+
+    Route::get('/search-assets', [AssetController::class, 'search'])->name('search-assets');
 });
 
 Route::middleware('auth')->group(function () {

@@ -10,7 +10,7 @@ class AssetData extends Data
     public function __construct(
         public int $id,
         public string $name,
-        public CategoryData $category,
+        public CategoryData|null $category,
         public AssignedUserData|null $assignedUser,
         public ImageData|null $image
     ) {
@@ -21,7 +21,7 @@ class AssetData extends Data
         return new self(
             $asset->id,
             $asset->name,
-            CategoryData::fromModel($asset->category),
+            CategoryData::optional($asset->category),
             AssignedUserData::optional($asset->assignedUser),
             ImageData::optional($asset->image)
         );

@@ -13,7 +13,7 @@ class CategoryData extends Data
     ) {
     }
 
-    public static function fromModel(Category $category): self
+    public static function fromModel(Category|null $category): self|null
     {
         return new self(
             $category->id,

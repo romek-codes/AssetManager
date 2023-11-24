@@ -7,6 +7,8 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -54,5 +56,29 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json();
+    }
+
+    /**
+     * Search for categories based on the query parameter.
+     *
+     * @param  Request  $request The incoming HTTP request.
+     * @return Collection The search results.
+     */
+    public function search(Request $request): Collection
+    {
+        return Category::search($request->query('category-name'))
+            ->get()
+            ->map(function ($category) {
+                return CategoryData::fromModel($category);
+            });
+
+    }
+
+    public function deleteCategories(Request $request): JsonResponse
+    {
+        $ids = $request->input('ids');
+        Category::whereIn('id', $ids)->delete();
+
+        return response()->json(['message' => 'Categories deleted successfully', 'categories' => '']);
     }
 }

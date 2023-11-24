@@ -16,9 +16,9 @@ const categories = ref(props.categories);
 const searchQuery = ref('');
 const search = async () => {
   const response = await axios.get(`/search-categories?category-name=${searchQuery.value}`);
+  console.log(response.data);
   categories.value = response.data;
 };
-
 
 const categoryIds = ref([]);
 const deleteCategories = async () => {
