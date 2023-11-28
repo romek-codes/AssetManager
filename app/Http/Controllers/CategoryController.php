@@ -71,7 +71,6 @@ class CategoryController extends Controller
             ->map(function ($category) {
                 return CategoryData::fromModel($category);
             });
-
     }
 
     public function deleteCategories(Request $request): JsonResponse

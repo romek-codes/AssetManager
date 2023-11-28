@@ -20,7 +20,7 @@ class AssetController extends Controller
 {
     public function index(): Response
     {
-        $assets = Asset::with('image', 'category', 'assignedUser')->get()->map(function ($asset) {
+        $assets = Asset::with('image', 'category', 'assignedUser', 'assetComponent')->get()->map(function ($asset) {
             return AssetData::fromModel($asset);
         });
 
@@ -83,7 +83,6 @@ class AssetController extends Controller
         return Asset::search($request->query('asset-name'))->get()->map(function ($category) {
             return AssetData::fromModel($category);
         });
-
     }
 
     public function getAssetWithCategory(Request $request)
