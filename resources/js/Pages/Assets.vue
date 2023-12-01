@@ -86,62 +86,85 @@ const assets = ref(props.assets);
       <section class="flex flex-col mt-2">
         <!-- head -->
         <header>
-          <article class="flex flex-row justify-around mb-8 justify-center items-center">
-            <label>
+          <article class="flex flex-row justify-around pb-8  items-center">
+            <label class="invisible">
               <input type="checkbox" class="checkbox"/>
             </label>
-<!--            <p>ID</p>-->
-            <p>Name</p>
-            <p>Category</p>
-            <p>Assigned User</p>
+            <!--            <p>ID</p>-->
+            <p class="w-32">Name</p>
+            <p class="w-32">Category</p>
+            <p class="w-32">Assigned User</p>
           </article>
         </header>
         <!-- body -->
-        <main class="flex flex-col bg-primary">
+        <main class="flex flex-col bg-base-100">
           <template v-for="(asset, index) in assets">
-            <article class="flex flex-row items-center justify-around h-14" :class="{'bg-accent': index % 2 === 0}">
+            <div class="divider h-0 m-0"></div>
+            <article class="flex flex-row items-center justify-around pt-8 pb-2"
+                     :class="{'bg-base-200': index % 2 === 0}">
               <label>
-                <input type="checkbox" class="checkbox"/>
+                <input type="checkbox" class="checkbox checkbox-xs"/>
               </label>
-<!--              <p class="w-32">{{asset.id}}</p>-->
+              <!--              <p class="w-32">{{asset.id}}</p>-->
               <div class="flex items-center space-x-3 w-32">
                 <div class="avatar">
                   <div class="mask mask-squircle w-12 h-12">
                     <img v-if="asset.image" :src="asset.image?.url" :alt="asset.name + ' image'"/>
-                    <img v-else src="https://www.svgrepo.com/show/451667/image-missing.svg" :alt="asset.name + ' image'"/>
+                    <img v-else src="https://www.svgrepo.com/show/451667/image-missing.svg"
+                         :alt="asset.name + ' image'"/>
                   </div>
                 </div>
                 <div>
                   <div class="font-bold">{{ asset.name }}</div>
+                  <div class="text-xs text-secondary">Name</div>
                 </div>
               </div>
-              <p class="w-32">{{ asset.category?.name }}</p>
-              <p class="w-32" v-if="asset.assignedUser">{{ asset.assignedUser?.firstName }} {{ asset.assignedUser?.lastName }}</p>
-              <p class="w-32" v-else > Not Assigned</p>
+              <div>
+                <p class="w-32">{{ asset.category?.name }}</p>
+                <div class="text-xs text-secondary">Category</div>
+              </div>
+              <div>
+                <p class="w-32" v-if="asset.assignedUser">{{ asset.assignedUser?.firstName }}
+                  {{ asset.assignedUser?.lastName }}</p>
+                <p class="w-32" v-else> Not Assigned</p>
+                <div class="text-xs text-secondary">Assigned User</div>
+              </div>
             </article>
-            <article class="flex flex-col mb-8" :class="{'bg-accent': index % 2 === 0}">
-              <article class="w-1/3" >
-
-              </article>
-            <article class="pl-10 flex flex-row items-center justify-around h-14 bg-secondary w-2/3 self-end" v-for="assetComponent in asset.assetComponents">
-<!--                <label class="w-32">-->
-<!--                  <input type="checkbox" class="checkbox"/>-->
-<!--                </label>-->
-                <div class="flex items-center space-x-3 w-32">
-                  <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
-                      <img v-if="assetComponent.image" :src="assetComponent.image?.url" :alt="assetComponent.name + ' image'"/>
-                      <img v-else src="https://www.svgrepo.com/show/451667/image-missing.svg" :alt="assetComponent.name + ' image'"/>
+            <article class="flex flex-row pb-8" :class="{'bg-base-200': index % 2 === 0}">
+              <div class="w-1/12 justify-center">
+              </div>
+              <div class="flex flex-col w-11/12 self-end">
+                <article class="pl-10 flex flex-row items-center justify-around h-14 "
+                         v-for="assetComponent in asset.assetComponents">
+                  <label class="w-32">
+                    <input type="checkbox" class="checkbox checkbox-xs"/>
+                  </label>
+                  <div class="flex items-center space-x-3 w-32">
+                    <div class="avatar">
+                      <div class="mask mask-squircle w-12 h-12">
+                        <img v-if="assetComponent.image" :src="assetComponent.image?.url"
+                             :alt="assetComponent.name + ' image'"/>
+                        <img v-else src="https://www.svgrepo.com/show/451667/image-missing.svg"
+                             :alt="assetComponent.name + ' image'"/>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="font-bold">{{ asset.name }}</div>
+                      <div class="text-xs text-secondary">Name</div>
                     </div>
                   </div>
                   <div>
-                    <div class="font-bold">{{ asset.name }}</div>
+                    <p class="w-32">{{ assetComponent.category?.name }}</p>
+                    <div class="text-xs text-secondary">Category</div>
                   </div>
-                </div>
-                <p class="w-32">{{ assetComponent.category?.name }}</p>
-                <p class="w-32" v-if="assetComponent.assignedUser">{{ assetComponent.assignedUser?.firstName }} {{ assetComponent.assignedUser?.lastName }}</p>
-                <p class="w-32" v-else> Not Assigned</p>
-            </article>
+                  <div>
+                    <p class="w-32" v-if="assetComponent.assignedUser">{{ assetComponent.assignedUser?.firstName }}
+                      {{ assetComponent.assignedUser?.lastName }}</p>
+                    <p class="w-32" v-else> Not Assigned</p>
+                    <div class="text-xs text-secondary">Assigned User</div>
+                  </div>
+                </article>
+              </div>
             </article>
           </template>
         </main>
