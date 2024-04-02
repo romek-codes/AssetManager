@@ -13,7 +13,7 @@
 More
 </summary>
 
-![graph.png](https://raw.githubusercontent.com/romek-dev/AssetManager/main/graph.png)
+![graph.png](https://raw.githubusercontent.com/romek-codes/AssetManager/main/graphviz.svg)
 
 </details>
 
