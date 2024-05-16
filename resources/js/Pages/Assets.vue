@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/vue3';
-import {FlexRender} from '@tanstack/vue-table'
-import {useVueTable} from '@tanstack/vue-table'
-// const table = useVueTable()
-import {defineProps, ref} from 'vue';
-
-
+import AssetComponentModal from "@/Components/AssetComponentModal.vue";
+import {defineProps, reactive, ref} from 'vue';
 import AssetData = App.Data.AssetData;
 import CategoryData = App.Data.CategoryData;
 import AssignedUserData = App.Data.AssignedUserData;
 import axios from 'axios';
+import AssetComponentData = App.Data.AssetComponentData;
 
 const searchQuery = ref('');
 const search = async () => {
   const response = await axios.get(`/search-assets?asset-name=${searchQuery.value}`);
   assets.value = response.data;
 };
+
+const showDetailsModalData = reactive({});
+
+function showDetails(assetComponents: AssetComponentData[], show: boolean) {
+  this.showDetailsModalData = assetComponents;
+}
 
 const props = defineProps<{
   assets: AssetData[];
@@ -25,11 +28,6 @@ const props = defineProps<{
 }>();
 
 const assets = ref(props.assets);
-// for (let asset of assets.value) {
-//   for (let assetComponent of asset.assetComponents) {
-//     console.log(assetComponent);
-//   }
-// }
 
 </script>
 
@@ -86,18 +84,20 @@ const assets = ref(props.assets);
       <section class="flex flex-col mt-2">
         <!-- head -->
         <header>
-          <article class="flex flex-row justify-around pb-8  items-center">
+          <article class="flex flex-row justify-around pb-8 items-center">
             <label class="invisible">
               <input type="checkbox" class="checkbox"/>
             </label>
-            <!--            <p>ID</p>-->
+            <p>ID</p>
             <p class="w-32">Name</p>
             <p class="w-32">Category</p>
             <p class="w-32">Assigned User</p>
+            <p class="w-32">Details</p>
           </article>
         </header>
         <!-- body -->
         <main class="flex flex-col bg-base-100">
+          <AssetComponentModal :asset-components="showDetailsModalData"></AssetComponentModal>
           <template v-for="(asset, index) in assets">
             <div class="divider h-0 m-0"></div>
             <article class="flex flex-row items-center justify-around pt-8 pb-2"
@@ -105,7 +105,7 @@ const assets = ref(props.assets);
               <label>
                 <input type="checkbox" class="checkbox checkbox-xs"/>
               </label>
-              <!--              <p class="w-32">{{asset.id}}</p>-->
+              <p class="w-32">{{ asset.id }}</p>
               <div class="flex items-center space-x-3 w-32">
                 <div class="avatar">
                   <div class="mask mask-squircle w-12 h-12">
@@ -129,41 +129,19 @@ const assets = ref(props.assets);
                 <p class="w-32" v-else> Not Assigned</p>
                 <div class="text-xs text-secondary">Assigned User</div>
               </div>
+              <div>
+                <button v-if="asset.assetComponents" class="btn btn-primary "
+                        @click="showDetails(asset.assetComponents, true)">
+                  <!--                        onclick="showDetails.showModal()">-->
+                  View Details
+                </button>
+                <!--                <div class="text-xs text-secondary">Assigned User</div>-->
+              </div>
             </article>
             <article class="flex flex-row pb-8" :class="{'bg-base-200': index % 2 === 0}">
               <div class="w-1/12 justify-center">
               </div>
               <div class="flex flex-col w-11/12 self-end">
-                <article class="pl-10 flex flex-row items-center justify-around h-14 "
-                         v-for="assetComponent in asset.assetComponents">
-                  <label class="w-32">
-                    <input type="checkbox" class="checkbox checkbox-xs"/>
-                  </label>
-                  <div class="flex items-center space-x-3 w-32">
-                    <div class="avatar">
-                      <div class="mask mask-squircle w-12 h-12">
-                        <img v-if="assetComponent.image" :src="assetComponent.image?.url"
-                             :alt="assetComponent.name + ' image'"/>
-                        <img v-else src="https://www.svgrepo.com/show/451667/image-missing.svg"
-                             :alt="assetComponent.name + ' image'"/>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="font-bold">{{ asset.name }}</div>
-                      <div class="text-xs text-secondary">Name</div>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="w-32">{{ assetComponent.category?.name }}</p>
-                    <div class="text-xs text-secondary">Category</div>
-                  </div>
-                  <div>
-                    <p class="w-32" v-if="assetComponent.assignedUser">{{ assetComponent.assignedUser?.firstName }}
-                      {{ assetComponent.assignedUser?.lastName }}</p>
-                    <p class="w-32" v-else> Not Assigned</p>
-                    <div class="text-xs text-secondary">Assigned User</div>
-                  </div>
-                </article>
               </div>
             </article>
           </template>

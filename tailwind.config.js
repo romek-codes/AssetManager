@@ -24,13 +24,10 @@ export default {
         base: false,
         themes: [
             "light",
-            "cupcake",
+            "business",
             {
                 dark: {
                     ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
-                },
-                business: {
-                    ...require("daisyui/src/theming/themes")["[data-theme=business]"],
                     "base-200": '#1c1c1c',
                 },
             },
